@@ -1,0 +1,33 @@
+<%- include('../partials/header')%>
+<%- include('../partials/navbar')%>
+
+<div class="container">
+    <div class="row align-items-center justify-content-center my-3">
+        <div class="col-md-8">
+
+            <form class="needs-validation" action="/products" method="POST" novalidate>
+                <h4 class="display-4">Add a Product</h4>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="text" class="form-control" id="image" name="img" required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" required>
+                </div>
+                <div class="mb-3">
+                    <label for="desc" class="form-label">Description</label>
+                    <textarea rows="3" cols="50" class="form-control" id="desc" name="desc" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer')%>

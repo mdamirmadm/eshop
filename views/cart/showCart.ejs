@@ -1,0 +1,52 @@
+<%-include('../partials/header')%>
+<%-include('../partials/navbar')%>
+
+<div class="container my-2">
+    <h4 class="display-4 my-2">My Cart</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <%for(let item of userCart){%>
+
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0 align-items-center px-2">
+                      <div class="col-md-4">
+                        <img src="<%=item.img%>" class="img-fluid" alt="Product Image">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title"><%=item.name%></h5>
+                          <p class="card-text"><%=item.desc.substring(0,40)%>...</p>
+                          <p class="card-text"><strong>Rs.<%=item.price%></strong></p>
+                          <form class="d-inline" action="/user/<%=currentUser._id%>/cart/<%=item._id%>?_method=DELETE" method="POST" enctype="multipart/form-data">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+            <%}%>
+            
+        </div>
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-4">
+          <h6 class="display-6">Products</h6>
+            <%totalAmount = 0%>
+            <ul class="list-group">
+                <%for(let item of userCart){%>
+                    <li class="list-group-item"><%=item.name%> - <strong>&#8377;<%=item.price%></strong></li>
+                    <%totalAmount+=item.price%>
+                <%}%>
+            </ul>
+            <p class="lead mt-2">Total Amount: <%=totalAmount%></p>
+        </div>
+        <!-- Second column ends here -->
+
+
+    </div>
+</div>
+
+
+<%-include('../partials/footer')%>
