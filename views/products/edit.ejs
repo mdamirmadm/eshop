@@ -13,7 +13,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="text" class="form-control" id="image" name="img" value="<%=product.img%>" required>
+                    <input type="file" class="form-control" id="image" name="img" value="<%=product.img%>" required>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
@@ -23,6 +23,9 @@
                     <label for="desc" class="form-label">Description</label>
                     <textarea rows="5" cols="50" class="form-control" id="desc" name="desc" required><%=product.desc%></textarea>
                 </div>
+                
+                <input type="hidden" name="createdBy" value="<%=currentUser.username%>"/>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
 

@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV!=="production"){
+    require('dotenv').config();
+}
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -15,7 +19,7 @@ const productRoutes =  require('./routes/productRoutes');
 const authRoutes =  require('./routes/authRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 
-mongoose.connect('mongodb://localhost:27017/ecommerce', 
+mongoose.connect(process.env.DB_URL, 
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -66,7 +70,7 @@ app.use((req,res,next) => {
 // seed();
 
 app.get('/',(req,res) => {
-    res.send('Home Page');
+    res.render('home');
 })
 
 //middleware for Routes

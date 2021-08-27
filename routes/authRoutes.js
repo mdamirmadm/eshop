@@ -7,6 +7,10 @@ router.get('/register',(req,res) => {
     res.render('auth/register');
 })
 
+router.get('/register/seller',(req,res) => {
+    res.render('auth/registerSeller');
+})
+
 router.post('/register',async(req,res) => {
     try{
         const user = {
@@ -16,7 +20,7 @@ router.post('/register',async(req,res) => {
         };
         const newUser = await User.register(user,req.body.password);
         req.flash('success','User Registered Successfully!');
-        res.redirect('/products');
+        res.redirect('/login');
     }
     catch(e){
         console.log(e);

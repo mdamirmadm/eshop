@@ -3,6 +3,8 @@ const router = express.Router();
 const Product = require('../models/product');
 const Review = require('../models/review');
 const {isLoggedIn} = require('../middleware');
+const upload = require('../utils/multer');
+const cloudinary = require('../utils/cloudinary');
 
 //for showing all products
 router.get('/products',async (req,res) => {
@@ -23,9 +25,17 @@ router.get('/products/new', isLoggedIn ,(req,res) => {
 })
 
 //Adding a new Product
-router.post('/products', isLoggedIn, async(req,res) => {
+router.post('/products', isLoggedIn, upload.single('img'), async(req,res) => {
     try{
-        const product = {... req.body};
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const product = new Product({
+            name: req.body.name,
+            img: result.secure_url,
+            cloudinary_id: result.public_id,
+            price: req.body.price,
+            desc: req.body.desc,
+            createdBy: req.body.createdBy
+        });
         const newProduct = await Product.create(product);
         req.flash('success','Product Added Successfully');
         res.redirect(`/products`);
@@ -58,9 +68,28 @@ router.get('/products/:id/edit', isLoggedIn, async(req,res) => {
 })
 
 //Update the product
-router.patch('/products/:id', isLoggedIn, async(req,res) => {
+router.patch('/products/:id', isLoggedIn, upload.single('img'), async(req,res) => {
     try{
-        const updatedValues = { ... req.body};
+        if(req.file){
+            const product = await Product.findById(req.params.id);
+            await cloudinary.uploader.destroy(product.cloudinary_id);
+            const result = await cloudinary.uploader.upload(req.file.path);
+            var updatedValues = {
+                name: req.body.name,
+                img: result.secure_url,
+                cloudinary_id: result.public_id,
+                price: req.body.price,
+                desc: req.body.desc,
+                createdBy: req.body.createdBy 
+            }
+        }else{
+            var updatedValues = {
+                name: req.body.name,
+                price: req.body.price,
+                desc: req.body.desc,
+                createdBy: req.body.createdBy
+        }
+    }
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id,updatedValues);
         req.flash('success','Product Updated Sucessfully');
         res.redirect(`/products/${req.params.id}`);
@@ -75,7 +104,8 @@ router.patch('/products/:id', isLoggedIn, async(req,res) => {
 //Delete the product
 router.delete('/products/:id', isLoggedIn, async(req,res) => {
     try{
-        console.log("You hit the delete route");
+        const product = await Product.findById(req.params.id);
+        await cloudinary.uploader.destroy(product.cloudinary_id);
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
         req.flash('success','Product Deleted Successfully!');
         res.redirect(`/products`);
@@ -107,6 +137,10 @@ router.post('/products/:id/review', isLoggedIn, async(req,res) => {
     // res.send("Review created");
 })
 
+router.get('/error',(req,res) => {
+
+    res.render('error');
+})
 
 module.exports = router;
 

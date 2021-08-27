@@ -34,4 +34,17 @@ router.delete('/user/:userId/cart/:productId', isLoggedIn ,async(req,res) => {
     res.redirect(`/user/${userId}/cart`);
 })
 
+router.get('/user/:userId/success', isLoggedIn, async(req,res) => {
+
+    const {userId} = req.params;
+
+    const user = await User.findById(userId);
+
+    const removedItem = user.cart.splice(0);
+    
+    await user.save();
+
+    res.render('success');
+}) 
+
 module.exports = router;

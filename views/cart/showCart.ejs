@@ -1,10 +1,24 @@
 <%-include('../partials/header')%>
 <%-include('../partials/navbar')%>
 
+<%if(userCart.length<3){%>
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+<%}%>
+
+
 <div class="container my-2">
     <h4 class="display-4 my-2">My Cart</h4>
     <div class="row">
         <div class="col-md-6">
+
+            <%if(userCart.length==0){%>
+              <div class="cart-box">
+                <p class="lead text-muted">Your Cart is Empty</p>
+                <p class="text-muted"><a href="/products">Add items to cart</a> to display them in your cart</p>
+              </div>
+                
+            <%}%>
+
             <%for(let item of userCart){%>
 
                 <div class="card mb-3" style="max-width: 540px;">
@@ -29,9 +43,9 @@
             
         </div>
 
-        <div class="col-md-2"></div>
+        <div class="col-md-1"></div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 ms-1 me-1">
           <h6 class="display-6">Products</h6>
             <%totalAmount = 0%>
             <ul class="list-group">
@@ -40,13 +54,19 @@
                     <%totalAmount+=item.price%>
                 <%}%>
             </ul>
-            <p class="lead mt-2">Total Amount: <%=totalAmount%></p>
+            <p class="lead">Total Amount: <%=totalAmount%></p>
+
+            <a href="/user/<%=currentUser._id%>/success"><button class="btn btn-primary d-md-block d-none" type="submit">Buy Now</button></a>
+
+            <div class="d-md-none d-grid gap-2">
+              <a  href="/user/<%=currentUser._id%>/success"><button class="btn btn-primary" type="submit">Buy Now</button></a>
+            </div>
+
         </div>
         <!-- Second column ends here -->
 
 
     </div>
 </div>
-
 
 <%-include('../partials/footer')%>

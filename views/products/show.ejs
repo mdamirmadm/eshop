@@ -13,18 +13,23 @@
                   <h5 class="card-title display-4"><%=product.name%></h5>
                   <h5 class="card-title">Rs.<%=product.price%></h5>
                   <p class="card-text"><%=product.desc%>.</p>
-                  <a href="#" class="btn btn-success">Buy</a>
-                  <form action="/user/<%=product._id%>/cart" method="POST" class="d-inline" enctype="multipart/form-data">
-                    <button type="submit" class="btn btn-secondary">Add to cart</button>
-                  </form>
+                  <%if(currentUser.role==="seller" && product.createdBy === currentUser.username){%>
                 
-                  <a href="/products/<%=product._id%>/edit" class="my-2 my-sm-1 my-md-0 btn btn-primary">Edit</a>
+                    <a href="/products/<%=product._id%>/edit" class="my-2 my-sm-1 my-md-0 btn btn-primary">Edit</a>
                 
                   <!-- Delete Button -->
-                  <form class="d-inline" action="/products/<%=product._id%>?_method=DELETE"   method=POST enctype="multipart/form-data">
+                    <form class="d-inline" action="/products/<%=product._id%>?_method=DELETE"   method=POST enctype="multipart/form-data">
                         <button type="submit" class="my-2 my-sm-1 my-md-0 btn btn-danger">Delete</button>
-                  </form>
-                  
+                    </form>
+                  <%}else {%>
+
+                    <a href="#" class="btn btn-success">Buy</a>
+
+                    <form action="/user/<%=product._id%>/cart" method="POST" class="d-inline" enctype="multipart/form-data">
+                        <button type="submit" class="btn btn-secondary">Add to cart</button>
+                    </form>
+
+                  <%}%>
                 </div>
             </div>
         </div>

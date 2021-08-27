@@ -1,0 +1,40 @@
+footer{
+    position: absolute;
+    width: 100vw;
+    bottom: 0px;
+    left:0px;
+    padding: 10px;
+    margin-top: 30px;
+    background-color: #0d6efd;
+}
+
+footer p{
+    text-align: center;
+    color: white;
+}
+
+.outer-box{
+    width: 80vw;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inner-content{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.fa-exclamation-triangle{
+    font-size: 70px;
+    color: red;
+}
+
+.inner-content p{
+    font-size: 40px;
+    font-weight: 300;
+}
